@@ -45,7 +45,12 @@ function Sidebar({ isOpen, onClose }) {
 
       <nav className="flex flex-col gap-2" aria-label="Main navigation">
         {navigationItems.map(({ label, path, icon: Icon }) => (
-          <NavLink key={path} to={path} className={getNavLinkClass}>
+          <NavLink
+            key={path}
+            to={path}
+            onClick={onClose}
+            className={getNavLinkClass}
+          >
             <Icon size={20} aria-hidden="true" />
             <span>{label}</span>
           </NavLink>
