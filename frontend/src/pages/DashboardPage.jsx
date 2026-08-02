@@ -1,6 +1,7 @@
 import { FolderKanban, IndianRupee, Users, WalletCards } from "lucide-react";
 
 import StatCard from "../components/dashboard/StatCard";
+import RecentProjects from "../components/dashboard/RecentProjects";
 
 const dashboardStats = [
   {
@@ -29,6 +30,41 @@ const dashboardStats = [
   },
 ];
 
+const recentProjects = [
+  {
+    id: 1,
+    name: "Retail Store Renovation",
+    client: "Sharma Traders",
+    status: "In Progress",
+    deadline: "12 Aug 2026",
+    progress: 72,
+  },
+  {
+    id: 2,
+    name: "Warehouse Electrical Work",
+    client: "Patil Industries",
+    status: "Planning",
+    deadline: "20 Aug 2026",
+    progress: 25,
+  },
+  {
+    id: 3,
+    name: "Office Interior Setup",
+    client: "Nexon Solutions",
+    status: "On Hold",
+    deadline: "28 Aug 2026",
+    progress: 48,
+  },
+  {
+    id: 4,
+    name: "Restaurant Maintenance",
+    client: "Spice Garden",
+    status: "Completed",
+    deadline: "30 Jul 2026",
+    progress: 100,
+  },
+];
+
 function DashboardPage() {
   return (
     <section>
@@ -49,6 +85,8 @@ function DashboardPage() {
           />
         ))}
       </div>
+
+      <RecentProjects projects={recentProjects} />
     </section>
   );
 }
