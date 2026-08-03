@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ProjectCard from "../components/projects/ProjectCard";
+import { Link } from "react-router";
 
 const projects = [
   {
@@ -59,11 +60,22 @@ function ProjectsPage() {
 
   return (
     <section>
-      <h1 className="text-3xl font-bold text-slate-900">Projects</h1>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Projects</h1>
 
-      <p className="mt-2 text-slate-600">
-        Manage and track business projects from one place.
-      </p>
+          <p className="mt-2 text-slate-600">
+            Manage and track business projects from one place.
+          </p>
+        </div>
+
+        <Link
+          to="/projects/new"
+          className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          Add Project
+        </Link>
+      </div>
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <input
           type="search"
