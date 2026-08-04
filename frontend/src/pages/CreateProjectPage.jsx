@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import useProjects from "../hooks/useProjects";
 const initialProjectForm = {
   name: "",
   client: "",
@@ -10,6 +10,7 @@ const initialProjectForm = {
 };
 
 function CreateProjectPage() {
+  const { addProject } = useProjects();
   const [projectForm, setProjectForm] = useState(initialProjectForm);
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -75,7 +76,7 @@ function CreateProjectPage() {
       budget: Number(projectForm.budget),
       progress: 0,
     };
-    console.log(newProject);
+    addProject(newProject);
 
     setSuccessMessage("Project created successfully.");
     setProjectForm(initialProjectForm);
