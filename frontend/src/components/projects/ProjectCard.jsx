@@ -5,7 +5,16 @@ const statusStyles = {
   Completed: "bg-emerald-50 text-emerald-700",
 };
 
-function ProjectCard({ name, client, status, deadline, budget, progress }) {
+function ProjectCard({
+  id,
+  name,
+  client,
+  status,
+  deadline,
+  budget,
+  progress,
+  onRemove,
+}) {
   return (
     <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <h2 className="text-lg font-semibold text-slate-900">{name}</h2>
@@ -55,6 +64,13 @@ function ProjectCard({ name, client, status, deadline, budget, progress }) {
             />
           </div>
         </div>
+        <button
+          type="button"
+          onClick={() => onRemove(id)}
+          className="mt-5 w-full rounded-lg border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
+        >
+          Delete Project
+        </button>
       </div>
     </article>
   );

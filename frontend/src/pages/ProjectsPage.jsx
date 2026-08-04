@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import useProjects from "../hooks/useProjects";
 
 function ProjectsPage() {
-  const { projects } = useProjects();
+  const { projects, removeProject } = useProjects();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
 
@@ -72,12 +72,14 @@ function ProjectsPage() {
             ({ id, name, client, status, deadline, budget, progress }) => (
               <ProjectCard
                 key={id}
+                id={id}
                 name={name}
                 client={client}
                 status={status}
                 deadline={deadline}
                 budget={budget}
                 progress={progress}
+                onRemove={removeProject}
               />
             ),
           )
