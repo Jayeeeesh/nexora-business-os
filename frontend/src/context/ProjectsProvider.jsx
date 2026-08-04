@@ -10,7 +10,7 @@ const initialProjects = [
     name: "Retail Store Renovation",
     client: "Sharma Traders",
     status: "In Progress",
-    deadline: "12 Aug 2026",
+    deadline: "2026-08-12",
     budget: 250000,
     progress: 72,
   },
@@ -19,7 +19,7 @@ const initialProjects = [
     name: "Warehouse Electrical Work",
     client: "Patil Industries",
     status: "Planning",
-    deadline: "20 Aug 2026",
+    deadline: "2026-08-20",
     budget: 180000,
     progress: 25,
   },
@@ -28,7 +28,7 @@ const initialProjects = [
     name: "Office Interior Setup",
     client: "Nexon Solutions",
     status: "On Hold",
-    deadline: "28 Aug 2026",
+    deadline: "2026-08-28",
     budget: 320000,
     progress: 48,
   },
@@ -37,7 +37,7 @@ const initialProjects = [
     name: "Restaurant Maintenance",
     client: "Spice Garden",
     status: "Completed",
-    deadline: "30 Jul 2026",
+    deadline: "2026-07-30",
     budget: 95000,
     progress: 100,
   },
@@ -80,10 +80,19 @@ function ProjectsProvider({ children }) {
     setProjects((prev) => prev.filter((project) => project.id !== projectId));
   };
 
+  const updateProject = (projectId, updatedProject) => {
+    setProjects((prev) =>
+      prev.map((project) =>
+        project.id === projectId ? { ...project, ...updatedProject } : project,
+      ),
+    );
+  };
+
   const value = {
     projects,
     addProject,
     removeProject,
+    updateProject,
   };
 
   return (
