@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProjectsContext from "./ProjectsContext";
 
 const PROJECTS_STORAGE_KEY = "nexora-projects";
 
+// Used only when no valid projects are available in localStorage.
 const initialProjects = [
   {
     id: 1,
@@ -43,6 +44,7 @@ const initialProjects = [
 ];
 
 function ProjectsProvider({ children }) {
+  // Restore saved projects when the application starts.
   const [projects, setProjects] = useState(() => {
     const storedProjects = localStorage.getItem(PROJECTS_STORAGE_KEY);
 
@@ -52,12 +54,15 @@ function ProjectsProvider({ children }) {
 
     try {
       const parsedProjects = JSON.parse(storedProjects);
+
       return Array.isArray(parsedProjects) ? parsedProjects : initialProjects;
     } catch {
+      // Fall back safely if the stored JSON is corrupted.
       return initialProjects;
     }
   });
 
+  // Keep localStorage synchronized whenever the projects state changes.
   useEffect(() => {
     localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
   }, [projects]);
@@ -67,12 +72,18 @@ function ProjectsProvider({ children }) {
       ...project,
       id: crypto.randomUUID(),
     };
+
     setProjects((prev) => [projectWithId, ...prev]);
+  };
+
+  const removeProject = (projectId) => {
+    setProjects((prev) => prev.filter((project) => project.id !== projectId));
   };
 
   const value = {
     projects,
     addProject,
+    removeProject,
   };
 
   return (
