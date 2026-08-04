@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 const statusStyles = {
   "In Progress": "bg-blue-50 text-blue-700",
   Planning: "bg-amber-50 text-amber-700",
@@ -71,6 +73,12 @@ function ProjectCard({
         >
           Delete Project
         </button>
+        <Link
+          to={`/projects/${id}/edit`}
+          className="block w-full rounded-lg border border-blue-200 px-4 py-2 text-center text-sm font-semibold text-blue-600 hover:bg-blue-50"
+        >
+          Edit Project
+        </Link>
       </div>
     </article>
   );
