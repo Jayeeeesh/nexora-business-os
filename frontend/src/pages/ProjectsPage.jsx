@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProjectCard from "../components/projects/ProjectCard";
 import { Link } from "react-router";
 import useProjects from "../hooks/useProjects";
@@ -7,6 +7,7 @@ function ProjectsPage() {
   const { projects, removeProject } = useProjects();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [projectToDelete, setProjectToDelete] = useState(null);
 
   const query = searchQuery.trim().toLowerCase();
 
@@ -20,6 +21,45 @@ function ProjectsPage() {
 
     return matchesSearch && matchesStatus;
   });
+
+  const handleDeleteRequest = (projectId) => {
+    const selectedProject = projects.find(
+      (project) => project.id === projectId,
+    );
+
+    setProjectToDelete(selectedProject ?? null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (!projectToDelete) {
+      return;
+    }
+
+    removeProject(projectToDelete.id);
+    setProjectToDelete(null);
+  };
+
+  const handleCancelDelete = () => {
+    setProjectToDelete(null);
+  };
+
+  useEffect(() => {
+    if (!projectToDelete) {
+      return;
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setProjectToDelete(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [projectToDelete]);
 
   return (
     <section>
@@ -79,12 +119,60 @@ function ProjectsPage() {
                 deadline={deadline}
                 budget={budget}
                 progress={progress}
-                onRemove={removeProject}
+                onRemove={handleDeleteRequest}
               />
             ),
           )
         )}
       </div>
+      {projectToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-dialog-title"
+            aria-describedby="delete-dialog-description"
+            className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl"
+          >
+            <h2
+              id="delete-dialog-title"
+              className="text-xl font-bold text-slate-900"
+            >
+              Delete Project
+            </h2>
+
+            <p
+              id="delete-dialog-description"
+              className="mt-3 text-sm text-slate-600"
+            >
+              Are you sure you want to delete{" "}
+              <span className="font-semibold text-slate-900">
+                {projectToDelete.name}
+              </span>
+              ?
+            </p>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                autoFocus
+                onClick={handleCancelDelete}
+                className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
