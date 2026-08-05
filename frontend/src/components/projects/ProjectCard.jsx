@@ -73,6 +73,14 @@ function ProjectCard({
         >
           Delete Project
         </button>
+
+        <Link
+          to={`/projects/${id}`}
+          className="block w-full rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-blue-700"
+        >
+          View Details
+        </Link>
+
         <Link
           to={`/projects/${id}/edit`}
           className="block w-full rounded-lg border border-blue-200 px-4 py-2 text-center text-sm font-semibold text-blue-600 hover:bg-blue-50"
