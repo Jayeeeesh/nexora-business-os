@@ -1,5 +1,8 @@
 import { useState } from "react";
 import useProjects from "../hooks/useProjects";
+import useNotification from "../hooks/useNotification";
+import { useNavigate } from "react-router";
+
 const initialProjectForm = {
   name: "",
   client: "",
@@ -10,9 +13,10 @@ const initialProjectForm = {
 };
 
 function CreateProjectPage() {
+  const navigate = useNavigate();
+  const { showNotification } = useNotification();
   const { addProject } = useProjects();
   const [projectForm, setProjectForm] = useState(initialProjectForm);
-  const [successMessage, setSuccessMessage] = useState("");
 
   const [errors, setErrors] = useState({});
 
@@ -23,10 +27,6 @@ function CreateProjectPage() {
       ...prev,
       [name]: value,
     }));
-
-    if (successMessage) {
-      setSuccessMessage("");
-    }
 
     if (errors[name]) {
       setErrors((prev) => {
@@ -41,8 +41,6 @@ function CreateProjectPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setSuccessMessage("");
 
     const newErrors = {};
 
@@ -77,8 +75,9 @@ function CreateProjectPage() {
       progress: 0,
     };
     addProject(newProject);
+    showNotification("Project created successfully.");
+    navigate("/projects");
 
-    setSuccessMessage("Project created successfully.");
     setProjectForm(initialProjectForm);
     setErrors({});
   };
@@ -90,12 +89,6 @@ function CreateProjectPage() {
       <p className="mt-2 text-slate-600">
         Add a new project and define its basic details.
       </p>
-
-      {successMessage && (
-        <p role="status" className="mt-6 text-sm font-medium text-emerald-700">
-          {successMessage}
-        </p>
-      )}
 
       <form
         onSubmit={handleSubmit}
