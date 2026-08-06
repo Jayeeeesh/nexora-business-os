@@ -2,6 +2,7 @@ import { useState } from "react";
 import useProjects from "../hooks/useProjects";
 import useNotification from "../hooks/useNotification";
 import { useNavigate } from "react-router";
+import ProjectForm from "../components/projects/ProjectForm";
 
 const initialProjectForm = {
   name: "",
@@ -90,183 +91,13 @@ function CreateProjectPage() {
         Add a new project and define its basic details.
       </p>
 
-      <form
+      <ProjectForm
+        projectForm={projectForm}
+        errors={errors}
+        onChange={handleChange}
         onSubmit={handleSubmit}
-        noValidate
-        className="mt-8 max-w-2xl rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
-      >
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div>
-            <label
-              htmlFor="name"
-              className="mb-2 block text-sm font-medium text-slate-700"
-            >
-              Project Name
-            </label>
-
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={projectForm.name}
-              onChange={handleChange}
-              placeholder="Enter project name"
-              aria-invalid={Boolean(errors.name)}
-              aria-describedby={errors.name ? "name-error" : undefined}
-              className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-            {errors.name && (
-              <p
-                id="name-error"
-                role="alert"
-                className="mt-1 text-sm text-red-600"
-              >
-                {errors.name}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="client"
-              className="mb-2 block text-sm font-medium text-slate-700"
-            >
-              Client Name
-            </label>
-
-            <input
-              id="client"
-              name="client"
-              type="text"
-              value={projectForm.client}
-              onChange={handleChange}
-              placeholder="Enter client name"
-              aria-invalid={Boolean(errors.client)}
-              aria-describedby={errors.client ? "client-error" : undefined}
-              className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-            {errors.client && (
-              <p
-                id="client-error"
-                role="alert"
-                className="mt-1 text-sm text-red-600"
-              >
-                {errors.client}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="status"
-              className="mb-2 block text-sm font-medium text-slate-700"
-            >
-              Status
-            </label>
-
-            <select
-              id="status"
-              name="status"
-              value={projectForm.status}
-              onChange={handleChange}
-              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            >
-              <option value="Planning">Planning</option>
-              <option value="In Progress">In Progress</option>
-              <option value="On Hold">On Hold</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="deadline"
-              className="mb-2 block text-sm font-medium text-slate-700"
-            >
-              Deadline
-            </label>
-
-            <input
-              id="deadline"
-              name="deadline"
-              type="date"
-              value={projectForm.deadline}
-              onChange={handleChange}
-              aria-invalid={Boolean(errors.deadline)}
-              aria-describedby={errors.deadline ? "deadline-error" : undefined}
-              className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-            {errors.deadline && (
-              <p
-                id="deadline-error"
-                role="alert"
-                className="mt-1 text-sm text-red-600"
-              >
-                {errors.deadline}
-              </p>
-            )}
-          </div>
-
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="budget"
-              className="mb-2 block text-sm font-medium text-slate-700"
-            >
-              Budget
-            </label>
-
-            <input
-              id="budget"
-              name="budget"
-              type="number"
-              min="1"
-              value={projectForm.budget}
-              onChange={handleChange}
-              placeholder="Enter project budget"
-              aria-invalid={Boolean(errors.budget)}
-              aria-describedby={errors.budget ? "budget-error" : undefined}
-              className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-            {errors.budget && (
-              <p
-                id="budget-error"
-                role="alert"
-                className="mt-1 text-sm text-red-600"
-              >
-                {errors.budget}
-              </p>
-            )}
-          </div>
-
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="description"
-              className="mb-2 block text-sm font-medium text-slate-700"
-            >
-              Description
-            </label>
-
-            <textarea
-              id="description"
-              name="description"
-              rows="4"
-              value={projectForm.description}
-              onChange={handleChange}
-              placeholder="Enter project description"
-              className="w-full resize-y rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-          </div>
-
-          <div className="sm:col-span-2">
-            <button
-              type="submit"
-              className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700"
-            >
-              Create Project
-            </button>
-          </div>
-        </div>
-      </form>
+        submitLabel="Create Project"
+      />
     </section>
   );
 }

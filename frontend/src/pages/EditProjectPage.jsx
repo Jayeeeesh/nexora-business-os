@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router";
 import useProjects from "../hooks/useProjects";
 import { useState } from "react";
 import useNotification from "../hooks/useNotification";
+import ProjectForm from "../components/projects/ProjectForm";
 
 function EditProjectPage() {
   const navigate = useNavigate();
@@ -100,156 +101,13 @@ function EditProjectPage() {
   return (
     <section>
       <h1 className="text-3xl font-bold text-slate-900">Edit Project</h1>
-      <form onSubmit={handleSubmit} noValidate className="mt-8 max-w-2xl">
-        <label
-          htmlFor="name"
-          className="mb-2 block text-sm font-medium text-slate-700"
-        >
-          Project Name
-        </label>
-
-        <input
-          id="name"
-          name="name"
-          type="text"
-          value={projectForm.name}
-          onChange={handleChange}
-          className="w-full rounded-lg border border-slate-300 px-4 py-3"
-          aria-invalid={Boolean(errors.name)}
-          aria-describedby={errors.name ? "name-error" : undefined}
-        />
-        {errors.name && (
-          <p id="name-error" role="alert" className="mt-1 text-sm text-red-600">
-            {errors.name}
-          </p>
-        )}
-
-        <label
-          htmlFor="client"
-          className="mb-2 mt-5 block text-sm font-medium text-slate-700"
-        >
-          Client Name
-        </label>
-
-        <input
-          id="client"
-          name="client"
-          type="text"
-          value={projectForm.client}
-          onChange={handleChange}
-          className="w-full rounded-lg border border-slate-300 px-4 py-3"
-          aria-invalid={Boolean(errors.client)}
-          aria-describedby={errors.client ? "client-error" : undefined}
-        />
-
-        {errors.client && (
-          <p
-            id="client-error"
-            role="alert"
-            className="mt-1 text-sm text-red-600"
-          >
-            {errors.client}
-          </p>
-        )}
-
-        <label
-          htmlFor="status"
-          className="mb-2 mt-5 block text-sm font-medium text-slate-700"
-        >
-          Status
-        </label>
-
-        <select
-          id="status"
-          name="status"
-          value={projectForm.status}
-          onChange={handleChange}
-          className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3"
-        >
-          <option value="Planning">Planning</option>
-          <option value="In Progress">In Progress</option>
-          <option value="On Hold">On Hold</option>
-          <option value="Completed">Completed</option>
-        </select>
-
-        <label
-          htmlFor="deadline"
-          className="mb-2 mt-5 block text-sm font-medium text-slate-700"
-        >
-          Deadline
-        </label>
-
-        <input
-          id="deadline"
-          name="deadline"
-          type="date"
-          value={projectForm.deadline}
-          onChange={handleChange}
-          className="w-full rounded-lg border border-slate-300 px-4 py-3"
-          aria-invalid={Boolean(errors.deadline)}
-          aria-describedby={errors.deadline ? "deadline-error" : undefined}
-        />
-        {errors.deadline && (
-          <p
-            id="deadline-error"
-            role="alert"
-            className="mt-1 text-sm text-red-600"
-          >
-            {errors.deadline}
-          </p>
-        )}
-
-        <label
-          htmlFor="budget"
-          className="mb-2 mt-5 block text-sm font-medium text-slate-700"
-        >
-          Budget
-        </label>
-
-        <input
-          id="budget"
-          name="budget"
-          type="number"
-          min="1"
-          value={projectForm.budget}
-          onChange={handleChange}
-          className="w-full rounded-lg border border-slate-300 px-4 py-3"
-          aria-invalid={Boolean(errors.budget)}
-          aria-describedby={errors.budget ? "budget-error" : undefined}
-        />
-        {errors.budget && (
-          <p
-            id="budget-error"
-            role="alert"
-            className="mt-1 text-sm text-red-600"
-          >
-            {errors.budget}
-          </p>
-        )}
-
-        <label
-          htmlFor="description"
-          className="mb-2 mt-5 block text-sm font-medium text-slate-700"
-        >
-          Description
-        </label>
-
-        <textarea
-          id="description"
-          name="description"
-          rows="4"
-          value={projectForm.description}
-          onChange={handleChange}
-          className="w-full resize-y rounded-lg border border-slate-300 px-4 py-3"
-        />
-
-        <button
-          type="submit"
-          className="mt-5 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white"
-        >
-          Save Changes
-        </button>
-      </form>
+      <ProjectForm
+        projectForm={projectForm}
+        errors={errors}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        submitLabel="Save Changes"
+      />
 
       <p className="mt-2 text-slate-600">
         Update the selected project details.
