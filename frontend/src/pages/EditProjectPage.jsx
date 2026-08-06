@@ -3,6 +3,7 @@ import useProjects from "../hooks/useProjects";
 import { useState } from "react";
 import useNotification from "../hooks/useNotification";
 import ProjectForm from "../components/projects/ProjectForm";
+import validateProject from "../utils/validateProject";
 
 function EditProjectPage() {
   const navigate = useNavigate();
@@ -49,23 +50,7 @@ function EditProjectPage() {
       return;
     }
 
-    const newErrors = {};
-
-    if (!projectForm.name.trim()) {
-      newErrors.name = "Project name is required";
-    }
-
-    if (!projectForm.client.trim()) {
-      newErrors.client = "Client name is required";
-    }
-
-    if (!projectForm.deadline) {
-      newErrors.deadline = "Deadline is required";
-    }
-
-    if (!projectForm.budget || Number(projectForm.budget) <= 0) {
-      newErrors.budget = "Budget must be greater than 0";
-    }
+    const newErrors = validateProject(projectForm);
 
     setErrors(newErrors);
 
