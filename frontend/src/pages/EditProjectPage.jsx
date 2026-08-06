@@ -1,11 +1,13 @@
 import { useParams, useNavigate } from "react-router";
 import useProjects from "../hooks/useProjects";
 import { useState } from "react";
+import useNotification from "../hooks/useNotification";
 
 function EditProjectPage() {
   const navigate = useNavigate();
   const { projectId } = useParams();
   const { projects, updateProject } = useProjects();
+  const { showNotification } = useNotification();
 
   const project = projects.find((item) => String(item.id) === projectId);
 
@@ -79,6 +81,7 @@ function EditProjectPage() {
     };
 
     updateProject(project.id, updatedData);
+    showNotification("Project updated successfully.");
     navigate("/projects");
   };
 

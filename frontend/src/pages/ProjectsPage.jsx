@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import ProjectCard from "../components/projects/ProjectCard";
 import { Link } from "react-router";
 import useProjects from "../hooks/useProjects";
+import useNotification from "../hooks/useNotification";
 
 function ProjectsPage() {
   const { projects, removeProject } = useProjects();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [projectToDelete, setProjectToDelete] = useState(null);
+  const { showNotification } = useNotification();
 
   const query = searchQuery.trim().toLowerCase();
 
@@ -36,6 +38,7 @@ function ProjectsPage() {
     }
 
     removeProject(projectToDelete.id);
+    showNotification("Project deleted successfully.");
     setProjectToDelete(null);
   };
 
