@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ProjectCard from "../components/projects/ProjectCard";
 import { Link } from "react-router";
 import useProjects from "../hooks/useProjects";
@@ -49,23 +49,10 @@ function ProjectsPage() {
     setProjectToDelete(null);
   };
 
-  useEffect(() => {
-    if (!projectToDelete) {
-      return;
-    }
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setProjectToDelete(null);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [projectToDelete]);
+  const handleClearFilters = () => {
+    setSearchQuery("");
+    setSelectedStatus("All");
+  };
 
   return (
     <section>
@@ -80,7 +67,7 @@ function ProjectsPage() {
 
         <Link
           to="/projects/new"
-          className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+          className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         >
           Add Project
         </Link>
@@ -120,10 +107,21 @@ function ProjectsPage() {
                 ? "Try changing your search or status filter."
                 : "Create your first project to get started."}
             </p>
+
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={handleClearFilters}
+                className="mt-4 inline-flex rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+              >
+                Clear Filters
+              </button>
+            )}
+
             {!hasActiveFilters && (
               <Link
                 to="/projects/new"
-                className="mt-4 inline-flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                className="mt-4 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               >
                 Create Project
               </Link>
