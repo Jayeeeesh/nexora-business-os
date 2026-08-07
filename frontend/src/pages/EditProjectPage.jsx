@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import useProjects from "../hooks/useProjects";
 import { useState } from "react";
 import useNotification from "../hooks/useNotification";
@@ -79,6 +79,12 @@ function EditProjectPage() {
         <p className="mt-2 text-slate-600">
           The requested project does not exist.
         </p>
+        <Link
+          to="/projects"
+          className="mt-4 inline-flex rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+        >
+          Back to Projects
+        </Link>
       </section>
     );
   }

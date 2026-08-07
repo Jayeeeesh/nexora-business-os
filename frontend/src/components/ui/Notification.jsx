@@ -17,17 +17,21 @@ function Notification() {
   }, [notification, clearNotification]);
 
   if (!notification) {
-    return;
+    return null;
   }
 
   return (
-    <div className="fixed right-4 top-4 z-50 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg">
+    <div
+      role="status"
+      aria-live="polite"
+      className="fixed left-4 right-4 top-4 z-50 flex items-start justify-between gap-3 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg sm:left-auto sm:max-w-sm"
+    >
       <span>{notification.message}</span>
 
       <button
         type="button"
         onClick={clearNotification}
-        className="ml-4"
+        className="rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-600"
         aria-label="Close notification"
       >
         ×

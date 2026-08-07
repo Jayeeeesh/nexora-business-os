@@ -168,7 +168,7 @@ function ProjectForm({ projectForm, errors, onChange, onSubmit, submitLabel }) {
 
       <button
         type="submit"
-        className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+        className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
       >
         {submitLabel}
       </button>

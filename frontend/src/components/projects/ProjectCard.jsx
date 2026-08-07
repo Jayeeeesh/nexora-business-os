@@ -66,27 +66,28 @@ function ProjectCard({
             />
           </div>
         </div>
-        <button
-          type="button"
-          onClick={() => onRemove(id)}
-          className="mt-5 w-full rounded-lg border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
-        >
-          Delete Project
-        </button>
 
         <Link
           to={`/projects/${id}`}
-          className="block w-full rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-blue-700"
+          className="block w-full rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         >
           View Details
         </Link>
 
         <Link
           to={`/projects/${id}/edit`}
-          className="block w-full rounded-lg border border-blue-200 px-4 py-2 text-center text-sm font-semibold text-blue-600 hover:bg-blue-50"
+          className="block w-full rounded-lg border border-blue-200 px-4 py-2 text-center text-sm font-semibold text-blue-600 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         >
           Edit Project
         </Link>
+
+        <button
+          type="button"
+          onClick={() => onRemove(id)}
+          className="w-full rounded-lg border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+        >
+          Delete Project
+        </button>
       </div>
     </article>
   );
