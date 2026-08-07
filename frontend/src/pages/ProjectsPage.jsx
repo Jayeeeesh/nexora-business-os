@@ -3,6 +3,7 @@ import ProjectCard from "../components/projects/ProjectCard";
 import { Link } from "react-router";
 import useProjects from "../hooks/useProjects";
 import useNotification from "../hooks/useNotification";
+import ConfirmationModal from "../components/ui/ConfirmationModal";
 
 function ProjectsPage() {
   const { projects, removeProject } = useProjects();
@@ -129,52 +130,12 @@ function ProjectsPage() {
         )}
       </div>
       {projectToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="delete-dialog-title"
-            aria-describedby="delete-dialog-description"
-            className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl"
-          >
-            <h2
-              id="delete-dialog-title"
-              className="text-xl font-bold text-slate-900"
-            >
-              Delete Project
-            </h2>
-
-            <p
-              id="delete-dialog-description"
-              className="mt-3 text-sm text-slate-600"
-            >
-              Are you sure you want to delete{" "}
-              <span className="font-semibold text-slate-900">
-                {projectToDelete.name}
-              </span>
-              ?
-            </p>
-
-            <div className="mt-6 flex justify-end gap-3">
-              <button
-                type="button"
-                autoFocus
-                onClick={handleCancelDelete}
-                className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Cancel
-              </button>
-
-              <button
-                type="button"
-                onClick={handleConfirmDelete}
-                className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmationModal
+          title="Delete Project"
+          message={`Are you sure you want to delete ${projectToDelete.name}?`}
+          onCancel={handleCancelDelete}
+          onConfirm={handleConfirmDelete}
+        />
       )}
     </section>
   );
