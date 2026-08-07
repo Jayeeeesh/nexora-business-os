@@ -25,6 +25,8 @@ function ProjectsPage() {
     return matchesSearch && matchesStatus;
   });
 
+  const hasActiveFilters = query !== "" || selectedStatus !== "All";
+
   const handleDeleteRequest = (projectId) => {
     const selectedProject = projects.find(
       (project) => project.id === projectId,
@@ -108,9 +110,25 @@ function ProjectsPage() {
       </div>
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {filteredProjects.length === 0 ? (
-          <p className="text-sm text-slate-500 md:col-span-2 xl:col-span-3">
-            No projects found.
-          </p>
+          <div className="md:col-span-2 xl:col-span-3">
+            <h2 className="text-lg font-semibold text-slate-900">
+              {hasActiveFilters ? "No matching projects" : "No projects yet"}
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+              {hasActiveFilters
+                ? "Try changing your search or status filter."
+                : "Create your first project to get started."}
+            </p>
+            {!hasActiveFilters && (
+              <Link
+                to="/projects/new"
+                className="mt-4 inline-flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+              >
+                Create Project
+              </Link>
+            )}
+          </div>
         ) : (
           filteredProjects.map(
             ({ id, name, client, status, deadline, budget, progress }) => (
