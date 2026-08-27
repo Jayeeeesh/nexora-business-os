@@ -41,7 +41,7 @@ function CreateProjectPage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = validateProject(projectForm);
@@ -60,12 +60,16 @@ function CreateProjectPage() {
       budget: Number(projectForm.budget),
       progress: 0,
     };
-    addProject(newProject);
-    showNotification("Project created successfully.");
-    navigate("/projects");
+    try {
+      await addProject(newProject);
+      showNotification("Project created successfully.");
+      navigate("/projects");
 
-    setProjectForm(initialProjectForm);
-    setErrors({});
+      setProjectForm(initialProjectForm);
+      setErrors({});
+    } catch (error) {
+      showNotification(error.message || "Failed to create project.");
+    }
   };
 
   return (

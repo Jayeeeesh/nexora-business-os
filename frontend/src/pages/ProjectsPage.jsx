@@ -6,7 +6,7 @@ import useNotification from "../hooks/useNotification";
 import ConfirmationModal from "../components/ui/ConfirmationModal";
 
 function ProjectsPage() {
-  const { projects, removeProject } = useProjects();
+  const { projects, error, isLoading, removeProject } = useProjects();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [projectToDelete, setProjectToDelete] = useState(null);
@@ -35,14 +35,19 @@ function ProjectsPage() {
     setProjectToDelete(selectedProject ?? null);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (!projectToDelete) {
       return;
     }
 
-    removeProject(projectToDelete.id);
-    showNotification("Project deleted successfully.");
-    setProjectToDelete(null);
+    try {
+      await removeProject(projectToDelete.id);
+
+      showNotification("Project deleted successfully.");
+      setProjectToDelete(null);
+    } catch (error) {
+      showNotification(error.message || "Failed to delete project.");
+    }
   };
 
   const handleCancelDelete = () => {
@@ -72,6 +77,20 @@ function ProjectsPage() {
           Add Project
         </Link>
       </div>
+
+      {error && (
+        <div
+          role="alert"
+          className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        >
+          {error}
+        </div>
+      )}
+
+      {isLoading && (
+        <p className="mt-6 text-sm text-slate-500">Loading projects...</p>
+      )}
+
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <input
           type="search"
@@ -96,54 +115,56 @@ function ProjectsPage() {
         </select>
       </div>
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filteredProjects.length === 0 ? (
-          <div className="md:col-span-2 xl:col-span-3">
-            <h2 className="text-lg font-semibold text-slate-900">
-              {hasActiveFilters ? "No matching projects" : "No projects yet"}
-            </h2>
+        {!isLoading &&
+          !error &&
+          (filteredProjects.length === 0 ? (
+            <div className="md:col-span-2 xl:col-span-3">
+              <h2 className="text-lg font-semibold text-slate-900">
+                {hasActiveFilters ? "No matching projects" : "No projects yet"}
+              </h2>
 
-            <p className="mt-1 text-sm text-slate-500">
-              {hasActiveFilters
-                ? "Try changing your search or status filter."
-                : "Create your first project to get started."}
-            </p>
+              <p className="mt-1 text-sm text-slate-500">
+                {hasActiveFilters
+                  ? "Try changing your search or status filter."
+                  : "Create your first project to get started."}
+              </p>
 
-            {hasActiveFilters && (
-              <button
-                type="button"
-                onClick={handleClearFilters}
-                className="mt-4 inline-flex rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
-              >
-                Clear Filters
-              </button>
-            )}
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={handleClearFilters}
+                  className="mt-4 inline-flex rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                >
+                  Clear Filters
+                </button>
+              )}
 
-            {!hasActiveFilters && (
-              <Link
-                to="/projects/new"
-                className="mt-4 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-              >
-                Create Project
-              </Link>
-            )}
-          </div>
-        ) : (
-          filteredProjects.map(
-            ({ id, name, client, status, deadline, budget, progress }) => (
-              <ProjectCard
-                key={id}
-                id={id}
-                name={name}
-                client={client}
-                status={status}
-                deadline={deadline}
-                budget={budget}
-                progress={progress}
-                onRemove={handleDeleteRequest}
-              />
-            ),
-          )
-        )}
+              {!hasActiveFilters && (
+                <Link
+                  to="/projects/new"
+                  className="mt-4 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                >
+                  Create Project
+                </Link>
+              )}
+            </div>
+          ) : (
+            filteredProjects.map(
+              ({ id, name, client, status, deadline, budget, progress }) => (
+                <ProjectCard
+                  key={id}
+                  id={id}
+                  name={name}
+                  client={client}
+                  status={status}
+                  deadline={deadline}
+                  budget={budget}
+                  progress={progress}
+                  onRemove={handleDeleteRequest}
+                />
+              ),
+            )
+          ))}
       </div>
       {projectToDelete && (
         <ConfirmationModal

@@ -3,9 +3,30 @@ import useProjects from "../hooks/useProjects";
 
 function ProjectDetailsPage() {
   const { projectId } = useParams();
-  const { projects } = useProjects();
+  const { projects, error, isLoading } = useProjects();
 
   const project = projects.find((item) => String(item.id) === projectId);
+
+  if (isLoading) {
+    return (
+      <section>
+        <p className="text-sm text-slate-500">Loading project...</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section>
+        <div
+          role="alert"
+          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        >
+          {error}
+        </div>
+      </section>
+    );
+  }
 
   if (!project) {
     return (
@@ -25,12 +46,21 @@ function ProjectDetailsPage() {
       </section>
     );
   }
+  const formattedDeadline = new Date(project.deadline).toLocaleDateString(
+    "en-IN",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    },
+  );
+
   return (
     <section>
       <h1 className="text-3xl font-bold text-slate-900">{project.name}</h1>
       <p className="mt-2 text-slate-600">Client: {project.client}</p>
       <p className="mt-2 text-slate-600">Status: {project.status}</p>
-      <p className="mt-2 text-slate-600">Deadline: {project.deadline}</p>
+      <p className="mt-2 text-slate-600">Deadline: {formattedDeadline}</p>
       <p className="mt-2 text-slate-600">
         Budget: ₹{project.budget.toLocaleString("en-IN")}
       </p>

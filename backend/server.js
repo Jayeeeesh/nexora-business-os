@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const cors = require("cors");
 
 const projectRoutes = require("./routes/projectRoutes");
 
@@ -9,6 +10,12 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 
 app.use("/api/projects", projectRoutes);
 
