@@ -5,25 +5,22 @@ import useNotification from "../hooks/useNotification";
 import ProjectForm from "../components/projects/ProjectForm";
 import validateProject from "../utils/validateProject";
 
-function EditProjectPage() {
-  const navigate = useNavigate();
-  const { projectId } = useParams();
-  const { projects, updateProject } = useProjects();
-  const { showNotification } = useNotification();
-
-  const project = projects.find((item) => String(item.id) === projectId);
-
+function EditProjectFormContent({
+  project,
+  updateProject,
+  showNotification,
+  navigate,
+}) {
   const [projectForm, setProjectForm] = useState({
-    name: project?.name ?? "",
-    client: project?.client ?? "",
-    status: project?.status ?? "Planning",
-    deadline: project?.deadline ?? "",
-    budget: project?.budget ?? "",
-    description: project?.description ?? "",
+    name: project.name ?? "",
+    client: project.client ?? "",
+    status: project.status ?? "Planning",
+    deadline: project.deadline?.slice(0, 10) ?? "",
+    budget: project.budget ?? "",
+    description: project.description ?? "",
   });
 
   const [errors, setErrors] = useState({});
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -43,12 +40,8 @@ function EditProjectPage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!project) {
-      return;
-    }
 
     const newErrors = validateProject(projectForm);
 
@@ -66,10 +59,60 @@ function EditProjectPage() {
       budget: Number(projectForm.budget),
     };
 
-    updateProject(project.id, updatedData);
-    showNotification("Project updated successfully.");
-    navigate("/projects");
+    try {
+      await updateProject(project.id, updatedData);
+      showNotification("Project updated successfully.");
+      navigate("/projects");
+    } catch (error) {
+      showNotification(error.message || "Failed to update project.");
+    }
   };
+  return (
+    <section>
+      <h1 className="text-3xl font-bold text-slate-900">Edit Project</h1>
+
+      <ProjectForm
+        projectForm={projectForm}
+        errors={errors}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        submitLabel="Save Changes"
+      />
+
+      <p className="mt-2 text-slate-600">
+        Update the selected project details.
+      </p>
+    </section>
+  );
+}
+
+function EditProjectPage() {
+  const navigate = useNavigate();
+  const { projectId } = useParams();
+  const { projects, error, isLoading, updateProject } = useProjects();
+  const { showNotification } = useNotification();
+
+  const project = projects.find((item) => String(item.id) === projectId);
+
+  if (isLoading) {
+    return (
+      <section>
+        <p className="text-sm text-slate-500">Loading project...</p>
+      </section>
+    );
+  }
+  if (error) {
+    return (
+      <section>
+        <div
+          role="alert"
+          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        >
+          {error}
+        </div>
+      </section>
+    );
+  }
 
   if (!project) {
     return (
@@ -90,20 +133,12 @@ function EditProjectPage() {
   }
 
   return (
-    <section>
-      <h1 className="text-3xl font-bold text-slate-900">Edit Project</h1>
-      <ProjectForm
-        projectForm={projectForm}
-        errors={errors}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        submitLabel="Save Changes"
-      />
-
-      <p className="mt-2 text-slate-600">
-        Update the selected project details.
-      </p>
-    </section>
+    <EditProjectFormContent
+      project={project}
+      updateProject={updateProject}
+      showNotification={showNotification}
+      navigate={navigate}
+    />
   );
 }
 
