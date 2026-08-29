@@ -3,7 +3,7 @@ const Project = require("../models/Project");
 
 const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find();
+    const projects = await Project.find({ owner: req.user.id });
 
     res.json(projects);
   } catch (error) {
@@ -15,7 +15,10 @@ const getProjects = async (req, res) => {
 
 const createProject = async (req, res) => {
   try {
-    const project = await Project.create(req.body);
+    const project = await Project.create({
+      ...req.body,
+      owner: req.user.id,
+    });
     res.status(201).json(project);
   } catch (error) {
     if (error.name === "ValidationError") {
@@ -46,7 +49,10 @@ const getProjectById = async (req, res) => {
       });
     }
 
-    const project = await Project.findById(projectId);
+    const project = await Project.findOne({
+      _id: projectId,
+      owner: req.user.id,
+    });
 
     if (!project) {
       return res.status(404).json({
@@ -65,6 +71,8 @@ const getProjectById = async (req, res) => {
 
 const updateProject = async (req, res) => {
   try {
+    const updates = { ...req.body };
+    delete updates.owner;
     const { projectId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
@@ -72,10 +80,18 @@ const updateProject = async (req, res) => {
         message: "Invalid project ID",
       });
     }
-    const updatedProject = await Project.findByIdAndUpdate(
-      projectId,
-      { $set: req.body },
-      { returnDocument: "after", runValidators: true },
+    const updatedProject = await Project.findOneAndUpdate(
+      {
+        _id: projectId,
+        owner: req.user.id,
+      },
+      {
+        $set: updates,
+      },
+      {
+        returnDocument: "after",
+        runValidators: true,
+      },
     );
     if (!updatedProject) {
       return res.status(404).json({
@@ -113,7 +129,10 @@ const deleteProject = async (req, res) => {
       });
     }
 
-    const deletedProject = await Project.findByIdAndDelete(projectId);
+    const deletedProject = await Project.findOneAndDelete({
+      _id: projectId,
+      owner: req.user.id,
+    });
 
     if (!deletedProject) {
       return res.status(404).json({

@@ -6,8 +6,11 @@ const {
   updateProject,
   deleteProject,
 } = require("../controllers/projectController");
+const protect = require("../middleware/authMiddleware");
 
 const routes = express.Router();
+
+routes.use(protect);
 
 routes.get("/", getProjects);
 
