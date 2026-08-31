@@ -134,8 +134,20 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
+const logoutUser = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+
+  return res.status(200).json({
+    message: "Logged out successfully",
+  });
+};
 module.exports = {
   registerUser,
   loginUser,
   getCurrentUser,
+  logoutUser,
 };

@@ -1,6 +1,9 @@
 import { Menu } from "lucide-react";
+import useAuth from "../../hooks/useAuth";
 
 function Header({ onMenuClick }) {
+  const { user, logout } = useAuth();
+  const userInitial = user?.name?.charAt(0).toUpperCase() || "U";
   return (
     <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
       <div className="flex items-center gap-3">
@@ -17,15 +20,22 @@ function Header({ onMenuClick }) {
           <p className="text-sm font-semibold text-slate-900">
             Business Operations
           </p>
-
           <p className="text-xs text-slate-500">
             Manage your work from one place
           </p>
         </div>
       </div>
-
-      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-        JT
+      <div className="flex items-center gap-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
+          {userInitial}
+        </div>
+        <button
+          type="button"
+          onClick={logout}
+          className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+        >
+          Logout
+        </button>
       </div>
     </header>
   );
