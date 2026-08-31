@@ -5,15 +5,18 @@ import ProjectsProvider from "./context/ProjectsProvider.jsx";
 import NotificationProvider from "./context/NotificationProvider";
 import App from "./App.jsx";
 import "./index.css";
+import AuthProvider from "./context/AuthProvider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <ProjectsProvider>
-        <NotificationProvider>
-          <App />
-        </NotificationProvider>
-      </ProjectsProvider>
+      <AuthProvider>
+        <ProjectsProvider>
+          <NotificationProvider>
+            <App />
+          </NotificationProvider>
+        </ProjectsProvider>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 );

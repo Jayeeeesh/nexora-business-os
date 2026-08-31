@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ProjectsContext from "./ProjectsContext";
+import useAuth from "../hooks/useAuth";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -13,12 +14,21 @@ const normalizeProject = (project) => {
 function ProjectsProvider({ children }) {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [loadedForUserId, setLoadedForUserId] = useState(null);
+  const { user, isLoading: isAuthLoading } = useAuth();
+  const userId = user?._id ?? user?.id ?? null;
 
   useEffect(() => {
+    if (isAuthLoading || !userId) {
+      return;
+    }
+
     const fetchProjects = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/projects`);
+        const response = await fetch(`${API_URL}/api/projects`, {
+          credentials: "include",
+        });
+
         const data = await response.json();
 
         if (!response.ok) {
@@ -27,19 +37,22 @@ function ProjectsProvider({ children }) {
 
         const normalizedProjects = data.map(normalizeProject);
         setProjects(normalizedProjects);
+        setError("");
+        setLoadedForUserId(userId);
       } catch (error) {
+        setProjects([]);
         setError(error.message);
-      } finally {
-        setIsLoading(false);
+        setLoadedForUserId(userId);
       }
     };
 
     fetchProjects();
-  }, []);
+  }, [userId, isAuthLoading]);
 
   const addProject = async (project) => {
     const response = await fetch(`${API_URL}/api/projects`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -57,6 +70,7 @@ function ProjectsProvider({ children }) {
   const removeProject = async (projectId) => {
     const response = await fetch(`${API_URL}/api/projects/${projectId}`, {
       method: "DELETE",
+      credentials: "include",
     });
     const result = await response.json();
     if (!response.ok) {
@@ -69,6 +83,7 @@ function ProjectsProvider({ children }) {
   const updateProject = async (projectId, updatedProject) => {
     const response = await fetch(`${API_URL}/api/projects/${projectId}`, {
       method: "PATCH",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -89,9 +104,14 @@ function ProjectsProvider({ children }) {
     );
   };
 
+  const hasLoadedCurrentUser = Boolean(userId) && loadedForUserId === userId;
+  const visibleProjects = hasLoadedCurrentUser ? projects : [];
+  const visibleError = hasLoadedCurrentUser ? error : "";
+  const isLoading = isAuthLoading || (Boolean(userId) && !hasLoadedCurrentUser);
+
   const value = {
-    projects,
-    error,
+    projects: visibleProjects,
+    error: visibleError,
     isLoading,
     addProject,
     removeProject,
