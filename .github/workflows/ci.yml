@@ -1,0 +1,48 @@
+name: Nexora CI
+
+on:
+    push:
+    pull_request:
+
+jobs:
+    frontend:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout repository
+              uses: actions/checkout@v6
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: "24"
+
+            - name: Install frontend dependencies
+              run: npm ci
+              working-directory: frontend
+
+            - name: Lint frontend
+              run: npm run lint
+              working-directory: frontend
+
+            - name: Build frontend
+              run: npm run build
+              working-directory: frontend
+
+    backend:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout repository
+              uses: actions/checkout@v6
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: "24"
+
+            - name: Install backend dependencies
+              run: npm ci
+              working-directory: backend
+
+            - name: Check backend syntax
+              run: node --check server.js
+              working-directory: backend
