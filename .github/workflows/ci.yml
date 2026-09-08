@@ -30,6 +30,21 @@ jobs:
 
   backend:
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:8
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand({ ping: 1 })'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      TEST_MONGO_URI: mongodb://127.0.0.1:27017/nexora_test
+      NODE_ENV: test
+
     steps:
       - name: checkout repository
         uses: actions/checkout@v7
@@ -45,4 +60,8 @@ jobs:
 
       - name: Check backend syntax
         run: node --check server.js
+        working-directory: backend
+
+      - name: Test backend
+        run: npm test
         working-directory: backend
