@@ -7,26 +7,15 @@ process.env.JWT_SECRET = "test-jwt-secret";
 const app = require("../app");
 const User = require("../models/User");
 
-const mongoose = require("mongoose");
+const { connectTestDb, disconnectTestDb } = require("./helpers/testDb");
 
-const TEST_MONGO_URI =
-  process.env.TEST_MONGO_URI || "mongodb://127.0.0.1:27018/nexora_test";
-
-before(async () => {
-  await mongoose.connect(TEST_MONGO_URI);
-
-  if (mongoose.connection.name !== "nexora_test") {
-    throw new Error("Tests must run against the nexora_test database");
-  }
-});
+before(connectTestDb);
 
 beforeEach(async () => {
   await User.deleteMany({});
 });
 
-after(async () => {
-  await mongoose.disconnect();
-});
+after(disconnectTestDb);
 
 test("GET /api/auth/me returns 401 when unauthenticated", async () => {
   const response = await request(app).get("/api/auth/me");
