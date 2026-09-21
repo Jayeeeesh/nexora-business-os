@@ -11,6 +11,10 @@ const startServer = async () => {
       throw new Error("JWT_SECRET is not configured");
     }
 
+    if (process.env.NODE_ENV === "production" && !process.env.CLIENT_URL) {
+      throw new Error("CLIENT_URL is not configured");
+    }
+
     await connectDB();
 
     app.listen(PORT, () => {
