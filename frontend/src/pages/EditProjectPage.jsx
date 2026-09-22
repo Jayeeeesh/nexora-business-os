@@ -15,6 +15,7 @@ function EditProjectFormContent({
     name: project.name ?? "",
     client: project.client ?? "",
     status: project.status ?? "Planning",
+    priority: project.priority ?? "Medium",
     deadline: project.deadline?.slice(0, 10) ?? "",
     budget: project.budget ?? "",
     description: project.description ?? "",

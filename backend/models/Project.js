@@ -17,6 +17,11 @@ const projectSchema = new mongoose.Schema(
       enum: ["Planning", "In Progress", "On Hold", "Completed"],
       default: "Planning",
     },
+    priority: {
+      type: String,
+      enum: ["Low", "Medium", "High"],
+      default: "Medium",
+    },
     deadline: {
       type: Date,
       required: true,

@@ -87,6 +87,27 @@ function ProjectForm({ projectForm, errors, onChange, onSubmit, submitLabel }) {
 
       <div>
         <label
+          htmlFor="priority"
+          className="mb-2 block text-sm font-medium text-slate-700"
+        >
+          Priority
+        </label>
+
+        <select
+          id="priority"
+          name="priority"
+          value={projectForm.priority}
+          onChange={onChange}
+          className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+        >
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <div>
+        <label
           htmlFor="deadline"
           className="mb-2 block text-sm font-medium text-slate-700"
         >

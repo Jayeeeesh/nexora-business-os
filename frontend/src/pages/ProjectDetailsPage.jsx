@@ -60,6 +60,7 @@ function ProjectDetailsPage() {
       <h1 className="text-3xl font-bold text-slate-900">{project.name}</h1>
       <p className="mt-2 text-slate-600">Client: {project.client}</p>
       <p className="mt-2 text-slate-600">Status: {project.status}</p>
+      <p className="mt-2 text-slate-600">Priority: {project.priority}</p>
       <p className="mt-2 text-slate-600">Deadline: {formattedDeadline}</p>
       <p className="mt-2 text-slate-600">
         Budget: ₹{project.budget.toLocaleString("en-IN")}

@@ -8,6 +8,7 @@ const normalizeProject = (project) => {
   return {
     ...project,
     id: project._id,
+    priority: project.priority ?? "Medium",
   };
 };
 
