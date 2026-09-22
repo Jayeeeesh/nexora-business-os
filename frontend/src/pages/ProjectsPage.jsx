@@ -9,6 +9,7 @@ function ProjectsPage() {
   const { projects, error, isLoading, removeProject } = useProjects();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [selectedPriority, setSelectedPriority] = useState("All");
   const [projectToDelete, setProjectToDelete] = useState(null);
   const { showNotification } = useNotification();
 
@@ -22,10 +23,14 @@ function ProjectsPage() {
     const matchesStatus =
       selectedStatus === "All" || project.status === selectedStatus;
 
-    return matchesSearch && matchesStatus;
+    const matchesPriority =
+      selectedPriority === "All" || project.priority === selectedPriority;
+
+    return matchesSearch && matchesStatus && matchesPriority;
   });
 
-  const hasActiveFilters = query !== "" || selectedStatus !== "All";
+  const hasActiveFilters =
+    query !== "" || selectedStatus !== "All" || selectedPriority !== "All";
 
   const handleDeleteRequest = (projectId) => {
     const selectedProject = projects.find(
@@ -57,6 +62,7 @@ function ProjectsPage() {
   const handleClearFilters = () => {
     setSearchQuery("");
     setSelectedStatus("All");
+    setSelectedPriority("All");
   };
 
   return (
@@ -113,6 +119,18 @@ function ProjectsPage() {
           <option value="On Hold">On Hold</option>
           <option value="Completed">Completed</option>
         </select>
+
+        <select
+          value={selectedPriority}
+          onChange={(e) => setSelectedPriority(e.target.value)}
+          aria-label="Filter projects by priority"
+          className="rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 sm:w-52"
+        >
+          <option value="All">All priorities</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
       </div>
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {!isLoading &&
@@ -125,7 +143,7 @@ function ProjectsPage() {
 
               <p className="mt-1 text-sm text-slate-500">
                 {hasActiveFilters
-                  ? "Try changing your search or status filter."
+                  ? "Try changing your search, status, or priority filter."
                   : "Create your first project to get started."}
               </p>
 
@@ -150,13 +168,23 @@ function ProjectsPage() {
             </div>
           ) : (
             filteredProjects.map(
-              ({ id, name, client, status, deadline, budget, progress }) => (
+              ({
+                id,
+                name,
+                client,
+                status,
+                priority,
+                deadline,
+                budget,
+                progress,
+              }) => (
                 <ProjectCard
                   key={id}
                   id={id}
                   name={name}
                   client={client}
                   status={status}
+                  priority={priority}
                   deadline={deadline}
                   budget={budget}
                   progress={progress}

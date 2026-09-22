@@ -7,11 +7,18 @@ const statusStyles = {
   Completed: "bg-emerald-50 text-emerald-700",
 };
 
+const priorityStyles = {
+  Low: "bg-slate-100 text-slate-700",
+  Medium: "bg-amber-50 text-amber-700",
+  High: "bg-red-50 text-red-700",
+};
+
 function ProjectCard({
   id,
   name,
   client,
   status,
+  priority,
   deadline,
   budget,
   progress,
@@ -26,7 +33,6 @@ function ProjectCard({
       <div className="mt-5 space-y-2 text-sm text-slate-600">
         <div className="flex items-center justify-between">
           <span>Status</span>
-
           <span
             className={`inline-flex whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ${
               statusStyles[status] || "bg-slate-100 text-slate-700"
@@ -35,6 +41,18 @@ function ProjectCard({
             {status}
           </span>
         </div>
+
+        <div className="flex items-center justify-between">
+          <span>Priority</span>
+          <span
+            className={`inline-flex whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ${
+              priorityStyles[priority] || "bg-slate-100 text-slate-700"
+            }`}
+          >
+            {priority}
+          </span>
+        </div>
+
         <div className="flex items-center justify-between">
           <span>Deadline</span>
           <span className="font-medium text-slate-900">{deadline}</span>

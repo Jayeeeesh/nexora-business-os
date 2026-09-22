@@ -52,7 +52,35 @@ test("POST /api/projects creates a project for authenticated user", async () => 
 
   assert.equal(response.statusCode, 201);
   assert.equal(response.body.name, "Nexora Website");
+  assert.equal(response.body.priority, "Medium");
   assert.equal(response.body.owner.toString(), user._id.toString());
+});
+
+test("POST /api/projects rejects invalid priority", async () => {
+  await User.create({
+    name: "Test User",
+    email: "test@nexora.com",
+    password: "password123",
+  });
+
+  const agent = request.agent(app);
+
+  await agent.post("/api/auth/login").send({
+    email: "test@nexora.com",
+    password: "password123",
+  });
+
+  const response = await agent.post("/api/projects").send({
+    name: "Invalid Priority Project",
+    client: "Acme Corp",
+    priority: "Urgent",
+    deadline: "2026-12-31",
+    budget: 50000,
+  });
+
+  assert.equal(response.statusCode, 400);
+  assert.equal(response.body.message, "Project validation failed");
+  assert.ok(response.body.errors.priority);
 });
 
 test("GET /api/projects returns only the authenticated user's projects", async () => {
@@ -160,10 +188,43 @@ test("PATCH /api/projects/:id updates the authenticated user's project", async (
   assert.equal(loginResponse.statusCode, 200);
   const response = await agent.patch(`/api/projects/${project._id}`).send({
     name: "Updated Project Name",
+    priority: "High",
   });
 
   assert.equal(response.statusCode, 200);
   assert.equal(response.body.name, "Updated Project Name");
+  assert.equal(response.body.priority, "High");
+});
+
+test("PATCH /api/projects/:id rejects invalid priority", async () => {
+  const user = await User.create({
+    name: "Test User",
+    email: "test@nexora.com",
+    password: "password123",
+  });
+
+  const project = await Project.create({
+    name: "Test Project",
+    client: "Client A",
+    deadline: "2026-12-31",
+    budget: 10000,
+    owner: user._id,
+  });
+
+  const agent = request.agent(app);
+
+  await agent.post("/api/auth/login").send({
+    email: "test@nexora.com",
+    password: "password123",
+  });
+
+  const response = await agent.patch(`/api/projects/${project._id}`).send({
+    priority: "Urgent",
+  });
+
+  assert.equal(response.statusCode, 400);
+  assert.equal(response.body.message, "Project validation failed");
+  assert.ok(response.body.errors.priority);
 });
 
 test("DELETE /api/projects/:id deletes the authenticated user's project", async () => {

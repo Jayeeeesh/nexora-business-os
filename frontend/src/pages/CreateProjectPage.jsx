@@ -9,6 +9,7 @@ const initialProjectForm = {
   name: "",
   client: "",
   status: "Planning",
+  priority: "Medium",
   deadline: "",
   budget: "",
   description: "",
