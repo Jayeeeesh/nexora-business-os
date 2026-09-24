@@ -1,3 +1,5 @@
+import { formatDate } from "../../utils/formatDate";
+
 const statusStyles = {
   "In Progress": "bg-blue-50 text-blue-700",
   Planning: "bg-amber-50 text-amber-700",
@@ -60,8 +62,7 @@ function RecentProjects({ projects }) {
                     </span>
                   </td>
 
-                  <td className="px-5 py-4">{deadline}</td>
-
+                  <td className="px-5 py-4">{formatDate(deadline)}</td>
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
                       <div
