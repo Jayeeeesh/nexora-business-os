@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { formatDate } from "../../utils/formatDate";
 
 const statusStyles = {
   "In Progress": "bg-blue-50 text-blue-700",
@@ -55,7 +56,9 @@ function ProjectCard({
 
         <div className="flex items-center justify-between">
           <span>Deadline</span>
-          <span className="font-medium text-slate-900">{deadline}</span>
+          <span className="font-medium text-slate-900">
+            {formatDate(deadline)}
+          </span>
         </div>
 
         <div className="flex items-center justify-between">
