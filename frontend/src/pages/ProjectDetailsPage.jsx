@@ -54,6 +54,7 @@ function ProjectDetailsPage() {
       year: "numeric",
     },
   );
+  const progress = project.progress ?? 0;
 
   return (
     <section>
@@ -65,6 +66,27 @@ function ProjectDetailsPage() {
       <p className="mt-2 text-slate-600">
         Budget: ₹{project.budget.toLocaleString("en-IN")}
       </p>
+
+      <div className="mt-6 max-w-md">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-slate-600">Progress</span>
+          <span className="font-medium text-slate-900">{progress}%</span>
+        </div>
+
+        <div
+          className="h-2 overflow-hidden rounded-full bg-slate-200"
+          role="progressbar"
+          aria-label={`${project.name} progress`}
+          aria-valuenow={progress}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <div
+            className="h-full rounded-full bg-blue-600"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
 
       <div className="mt-6">
         <h2 className="text-lg font-semibold text-slate-900">Description</h2>
