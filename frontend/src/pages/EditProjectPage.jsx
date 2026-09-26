@@ -18,6 +18,7 @@ function EditProjectFormContent({
     priority: project.priority ?? "Medium",
     deadline: project.deadline?.slice(0, 10) ?? "",
     budget: project.budget ?? "",
+    progress: project.progress ?? 0,
     description: project.description ?? "",
   });
 
@@ -58,6 +59,7 @@ function EditProjectFormContent({
       client: projectForm.client.trim(),
       description: projectForm.description.trim(),
       budget: Number(projectForm.budget),
+      progress: Number(projectForm.progress),
     };
 
     try {
@@ -78,6 +80,7 @@ function EditProjectFormContent({
         onChange={handleChange}
         onSubmit={handleSubmit}
         submitLabel="Save Changes"
+        showProgress
       />
 
       <p className="mt-2 text-slate-600">

@@ -16,6 +16,18 @@ function validateProject(projectForm) {
   if (!projectForm.budget || Number(projectForm.budget) <= 0) {
     errors.budget = "Budget must be greater than 0";
   }
+  if (projectForm.progress !== undefined) {
+    const progress = Number(projectForm.progress);
+
+    if (
+      projectForm.progress === "" ||
+      Number.isNaN(progress) ||
+      progress < 0 ||
+      progress > 100
+    ) {
+      errors.progress = "Progress must be between 0 and 100";
+    }
+  }
 
   return errors;
 }
