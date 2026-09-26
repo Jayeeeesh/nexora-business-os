@@ -1,4 +1,11 @@
-function ProjectForm({ projectForm, errors, onChange, onSubmit, submitLabel }) {
+function ProjectForm({
+  projectForm,
+  errors,
+  onChange,
+  onSubmit,
+  submitLabel,
+  showProgress = false,
+}) {
   return (
     <form
       onSubmit={onSubmit}
@@ -167,6 +174,39 @@ function ProjectForm({ projectForm, errors, onChange, onSubmit, submitLabel }) {
           </p>
         )}
       </div>
+
+      {showProgress && (
+        <div>
+          <label
+            htmlFor="progress"
+            className="mb-2 block text-sm font-medium text-slate-700"
+          >
+            Progress (%)
+          </label>
+
+          <input
+            id="progress"
+            name="progress"
+            type="number"
+            min="0"
+            max="100"
+            value={projectForm.progress}
+            onChange={onChange}
+            aria-invalid={Boolean(errors.progress)}
+            aria-describedby={errors.progress ? "progress-error" : undefined}
+            className="w-full rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
+          {errors.progress && (
+            <p
+              id="progress-error"
+              role="alert"
+              className="mt-1 text-sm text-red-600"
+            >
+              {errors.progress}
+            </p>
+          )}
+        </div>
+      )}
 
       <div>
         <label
