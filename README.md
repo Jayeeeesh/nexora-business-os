@@ -8,6 +8,7 @@ It provides secure authentication, project lifecycle management, priority and st
 
 - **Web Application:** [Open Nexora Business OS](https://nexora-web-v8fa.onrender.com)
 - **API Health:** [Check API Status](https://nexora-api-hw00.onrender.com/api/health)
+- **API Documentation:** [View API Reference](docs/API.md)
 
 ## Product Preview
 
