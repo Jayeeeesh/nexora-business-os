@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const TEST_MONGO_URI =
-  process.env.TEST_MONGO_URI || "mongodb://127.0.0.1:27018/nexora_test";
+  process.env.TEST_MONGO_URI || "mongodb://127.0.0.1:27018/opsentra_test";
 
 async function connectTestDb() {
   await mongoose.connect(TEST_MONGO_URI);
 
-  if (mongoose.connection.name !== "nexora_test") {
-    throw new Error("Tests must run against the nexora_test database");
+  if (mongoose.connection.name !== "opsentra_test") {
+    throw new Error("Tests must run against the opsentra_test database");
   }
 }
 

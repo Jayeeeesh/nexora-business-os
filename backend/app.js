@@ -22,7 +22,7 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
-  res.json({ message: "Nexora API is running" });
+  res.json({ message: "Opsentra API is running" });
 });
 
 app.get("/api/health", (req, res) => {
