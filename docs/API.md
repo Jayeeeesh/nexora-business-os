@@ -1,4 +1,4 @@
-# Nexora Business OS API
+# Opsentra Business OS API
 
 Base URL:
 
@@ -14,7 +14,7 @@ https://nexora-api-hw00.onrender.com
 
 ## Authentication
 
-Nexora uses JWT-based authentication with the token stored in an HTTP-only cookie named `token`.
+Opsentra uses JWT-based authentication with the token stored in an HTTP-only cookie named `token`.
 
 The login cookie expires after 7 days.
 
