@@ -38,7 +38,7 @@ function LoginPage() {
           <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
 
           <p className="mt-2 text-sm text-slate-500">
-            Sign in to continue to Nexora Business OS.
+            Sign in to continue to Opsentra Business OS.
           </p>
         </div>
 

@@ -41,14 +41,14 @@ test("submits email and password to login", async () => {
     </MemoryRouter>,
   );
 
-  await user.type(screen.getByLabelText(/email/i), "test@nexora.com");
+  await user.type(screen.getByLabelText(/email/i), "test@example.com");
 
   await user.type(screen.getByLabelText(/password/i), "password123");
 
   await user.click(screen.getByRole("button", { name: /sign in/i }));
 
   expect(mockLogin).toHaveBeenCalledWith({
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 });
@@ -64,7 +64,7 @@ test("shows an error when login fails", async () => {
     </MemoryRouter>,
   );
 
-  await user.type(screen.getByLabelText(/email/i), "test@nexora.com");
+  await user.type(screen.getByLabelText(/email/i), "test@example.com");
 
   await user.type(screen.getByLabelText(/password/i), "wrongpassword");
 
@@ -87,7 +87,7 @@ test("navigates to dashboard after successful login", async () => {
     </MemoryRouter>,
   );
 
-  await user.type(screen.getByLabelText(/email/i), "test@nexora.com");
+  await user.type(screen.getByLabelText(/email/i), "test@example.com");
   await user.type(screen.getByLabelText(/password/i), "password123");
 
   await user.click(screen.getByRole("button", { name: /sign in/i }));
