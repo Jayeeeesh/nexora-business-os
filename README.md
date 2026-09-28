@@ -1,12 +1,12 @@
-# Nexora Business OS
+# Opsentra Business OS
 
-Nexora Business OS is a full-stack project management platform built with React, Node.js, Express, and MongoDB.
+Opsentra Business OS is a full-stack project management platform built with React, Node.js, Express, and MongoDB.
 
 It provides secure authentication, project lifecycle management, priority and status tracking, dashboard insights, filtering, and production-oriented engineering practices including automated testing, CI/CD, and cloud deployment.
 
 ## Live Demo
 
-- **Web Application:** [Open Nexora Business OS](https://nexora-web-v8fa.onrender.com)
+- **Web Application:** [Open Opsentra Business OS](https://nexora-web-v8fa.onrender.com)
 - **API Health:** [Check API Status](https://nexora-api-hw00.onrender.com/api/health)
 - **API Documentation:** [View API Reference](docs/API.md)
 
@@ -16,19 +16,19 @@ It provides secure authentication, project lifecycle management, priority and st
 
 Overview of active, completed, high-priority, and overdue projects with recent project activity and progress tracking.
 
-![Nexora Dashboard](docs/screenshots/dashboard.png)
+![Opsentra Dashboard](docs/screenshots/dashboard.png)
 
 ### Project Management
 
 Search, filter, track, update, and manage projects with status, priority, deadlines, budgets, and progress.
 
-![Nexora Projects](docs/screenshots/projects.png)
+![Opsentra Projects](docs/screenshots/projects.png)
 
 ### Project Details
 
 Detailed project view with client information, status, priority, deadline, budget, progress, and description.
 
-![Nexora Project Details](docs/screenshots/project-details.png)
+![Opsentra Project Details](docs/screenshots/project-details.png)
 
 ## Key Features
 
@@ -58,7 +58,7 @@ Detailed project view with client information, status, priority, deadline, budge
 
 ## Architecture
 
-Nexora follows a separated frontend-backend architecture with clear responsibility boundaries.
+Opsentra follows a separated frontend-backend architecture with clear responsibility boundaries.
 
 ```text
 React + Vite Frontend
@@ -99,7 +99,7 @@ Changes are merged into `main` only after the required CI checks pass.
 
 ## Security & Production Readiness
 
-Nexora includes several safeguards for authentication, data isolation, and production configuration.
+Opsentra includes several safeguards for authentication, data isolation, and production configuration.
 
 - JWT authentication stored in HTTP-only cookies
 - Production cookies configured with secure browser settings

@@ -31,7 +31,7 @@ function Sidebar({ isOpen, onClose }) {
       }`}
     >
       <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-slate-900">Nexora</h2>
+        <h2 className="text-xl font-bold text-slate-900">Opsentra</h2>
 
         <button
           type="button"

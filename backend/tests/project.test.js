@@ -30,28 +30,28 @@ test("GET /api/projects returns 401 when unauthenticated", async () => {
 test("POST /api/projects creates a project for authenticated user", async () => {
   const user = await User.create({
     name: "Test User",
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 
   const agent = request.agent(app);
 
   const loginResponse = await agent.post("/api/auth/login").send({
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 
   assert.equal(loginResponse.statusCode, 200);
 
   const response = await agent.post("/api/projects").send({
-    name: "Nexora Website",
+    name: "Opsentra Website",
     client: "Acme Corp",
     deadline: "2026-12-31",
     budget: 50000,
   });
 
   assert.equal(response.statusCode, 201);
-  assert.equal(response.body.name, "Nexora Website");
+  assert.equal(response.body.name, "Opsentra Website");
   assert.equal(response.body.priority, "Medium");
   assert.equal(response.body.owner.toString(), user._id.toString());
 });
@@ -59,14 +59,14 @@ test("POST /api/projects creates a project for authenticated user", async () => 
 test("POST /api/projects rejects invalid priority", async () => {
   await User.create({
     name: "Test User",
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 
   const agent = request.agent(app);
 
   await agent.post("/api/auth/login").send({
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 
@@ -86,13 +86,13 @@ test("POST /api/projects rejects invalid priority", async () => {
 test("GET /api/projects returns only the authenticated user's projects", async () => {
   const userA = await User.create({
     name: "User A",
-    email: "usera@nexora.com",
+    email: "usera@example.com",
     password: "password123",
   });
 
   const userB = await User.create({
     name: "User B",
-    email: "userb@nexora.com",
+    email: "userb@example.com",
     password: "password123",
   });
 
@@ -115,7 +115,7 @@ test("GET /api/projects returns only the authenticated user's projects", async (
   const agent = request.agent(app);
 
   const loginResponse = await agent.post("/api/auth/login").send({
-    email: "usera@nexora.com",
+    email: "usera@example.com",
     password: "password123",
   });
 
@@ -131,13 +131,13 @@ test("GET /api/projects returns only the authenticated user's projects", async (
 test("GET /api/projects/:id blocks access to another user's project", async () => {
   const userA = await User.create({
     name: "User A",
-    email: "usera@nexora.com",
+    email: "usera@example.com",
     password: "password123",
   });
 
   await User.create({
     name: "User B",
-    email: "userb@nexora.com",
+    email: "userb@example.com",
     password: "password123",
   });
 
@@ -152,7 +152,7 @@ test("GET /api/projects/:id blocks access to another user's project", async () =
   const agent = request.agent(app);
 
   const loginResponse = await agent.post("/api/auth/login").send({
-    email: "userb@nexora.com",
+    email: "userb@example.com",
     password: "password123",
   });
 
@@ -166,7 +166,7 @@ test("GET /api/projects/:id blocks access to another user's project", async () =
 test("PATCH /api/projects/:id updates the authenticated user's project", async () => {
   const user = await User.create({
     name: "Test User",
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 
@@ -181,7 +181,7 @@ test("PATCH /api/projects/:id updates the authenticated user's project", async (
   const agent = request.agent(app);
 
   const loginResponse = await agent.post("/api/auth/login").send({
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 
@@ -199,7 +199,7 @@ test("PATCH /api/projects/:id updates the authenticated user's project", async (
 test("PATCH /api/projects/:id rejects invalid priority", async () => {
   const user = await User.create({
     name: "Test User",
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 
@@ -214,7 +214,7 @@ test("PATCH /api/projects/:id rejects invalid priority", async () => {
   const agent = request.agent(app);
 
   await agent.post("/api/auth/login").send({
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 
@@ -230,7 +230,7 @@ test("PATCH /api/projects/:id rejects invalid priority", async () => {
 test("DELETE /api/projects/:id deletes the authenticated user's project", async () => {
   const user = await User.create({
     name: "Test User",
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 
@@ -245,7 +245,7 @@ test("DELETE /api/projects/:id deletes the authenticated user's project", async 
   const agent = request.agent(app);
 
   const loginResponse = await agent.post("/api/auth/login").send({
-    email: "test@nexora.com",
+    email: "test@example.com",
     password: "password123",
   });
 

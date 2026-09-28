@@ -1,4 +1,4 @@
-name: Nexora CI
+name: Opsentra CI
 
 on:
   push:
@@ -46,7 +46,7 @@ jobs:
           --health-retries 5
 
     env:
-      TEST_MONGO_URI: mongodb://127.0.0.1:27017/nexora_test
+      TEST_MONGO_URI: mongodb://127.0.0.1:27017/opsentra_test
       NODE_ENV: test
 
     steps:
