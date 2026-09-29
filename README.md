@@ -116,7 +116,7 @@ Opsentra includes several safeguards for authentication, data isolation, and pro
 ## Project Structure
 
 ```text
-nexora-business-os/
+opsentra-business-os/
 ├── backend/
 │   ├── config/
 │   ├── controllers/
@@ -152,8 +152,8 @@ nexora-business-os/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Jayeeeesh/nexora-business-os.git
-cd nexora-business-os
+git clone https://github.com/Jayeeeesh/opsentra-business-os.git
+cd opsentra-business-os
 ```
 
 ### 2. Configure and run the backend
